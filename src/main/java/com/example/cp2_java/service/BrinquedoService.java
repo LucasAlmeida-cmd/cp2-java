@@ -15,7 +15,6 @@ public class BrinquedoService {
     @Autowired
     BrinquedoRepository brinquedoRepository;
 
-
     public Brinquedo adicionarBrinquedo(Brinquedo brinquedo){
         return brinquedoRepository.save(brinquedo);
     }
@@ -28,12 +27,27 @@ public class BrinquedoService {
         return brinquedoRepository.findAll();
     }
 
-    public Brinquedo atualizarBrinquedoPorId(Long id, Brinquedo brinquedo) throws BrinquedoNotFoundException {
-        Optional<Brinquedo> brinquedo1 = brinquedoRepository.findById(id);
-        if (brinquedo1 == null) throw new BrinquedoNotFoundException(id);
+    public Brinquedo atualizarBrinquedoPorId(Long id, Brinquedo brinquedoNovo)
+            throws BrinquedoNotFoundException {
 
+        Brinquedo brinquedo = brinquedoRepository.findById(id)
+                .orElseThrow(() -> new BrinquedoNotFoundException(id));
 
+        brinquedo.setClassificacao(brinquedoNovo.getClassificacao());
+        brinquedo.setNome(brinquedoNovo.getNome());
+        brinquedo.setPreco(brinquedoNovo.getPreco());
+        brinquedo.setTamanho(brinquedoNovo.getTamanho());
+        brinquedo.setTipo(brinquedoNovo.getTipo());
 
+        return brinquedoRepository.save(brinquedo);
+    }
 
+    public void deletarBrinquedoPorId(Long id) throws BrinquedoNotFoundException {
+        Optional<Brinquedo> brinquedoExistente = brinquedoRepository.findById(id);
+        if (brinquedoExistente.isPresent()){
+            brinquedoRepository.deleteById(id);
+        }else {
+            throw new BrinquedoNotFoundException(id);
+        }
     }
 }

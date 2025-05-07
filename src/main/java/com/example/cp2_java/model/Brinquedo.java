@@ -3,7 +3,7 @@ package com.example.cp2_java.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "TDS_TB_Brinquedos")
+@Table(name = "TDS_TB_BRINQUEDO")
 @SequenceGenerator(name = "brinquedo", sequenceName = "SQ_USER_BRINQUEDO", allocationSize = 1)
 public class Brinquedo {
 
